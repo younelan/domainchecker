@@ -113,7 +113,11 @@
   }
 
   function renderHistory(list){
-    const node = $('#history'); node.innerHTML = '<h2>History</h2>';
+    const node = $('#history');
+    // preserve existing header if present
+    const header = node.querySelector('.history-header');
+    node.innerHTML = '';
+    if (header) node.appendChild(header);
     if (!list || list.length===0) { node.innerHTML += '<div class="empty">no history</div>'; return; }
     const ul = document.createElement('ul');
     // small color map for known tlds
@@ -156,6 +160,15 @@
       ul.appendChild(li);
     });
     node.appendChild(ul);
+    // clear button wiring (only once)
+    const clearBtn = document.getElementById('clearHistory');
+    if (clearBtn && !clearBtn._wired) {
+      clearBtn.addEventListener('click', function(){
+        if (!confirm('Clear history?')) return;
+        api('clear', {method: 'POST'}).then(()=>api('history').then(h=>{ renderHistory(h.history); }));
+      });
+      clearBtn._wired = true;
+    }
   }
 
   // initial history load

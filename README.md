@@ -1,6 +1,15 @@
-TLD Explorer — Minimal
+# TLD Explorer
 
-Quick start
+### About
+Simple PHP Domain Name checker with history
+
+
+### Screenshot
+![TLD Explorer screenshot](resources/domaincheck.png)
+
+
+
+### Quick start
 
 Requirements
 - PHP 7.4+ with CLI and webserver support
@@ -16,7 +25,8 @@ php -S localhost:8000
 
 Open http://localhost:8000/ in a browser.
 
-Notes
-- The app uses a small `WhoisService` that queries known whois servers, falling back to the system `whois` binary if available.
+### Notes
+- The app uses a small `WhoisService` that queries known whois servers
+- edit config.php to modify list of whois Top Level Domains
 - History is stored in the PHP session. The frontend saves a summary of available TLDs after each check.
-- This is a minimal scaffold — improve rate-limiting, input validation, and response parsing before production use.
+
