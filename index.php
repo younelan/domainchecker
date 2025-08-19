@@ -51,6 +51,12 @@ if ($action === 'history' && $_SERVER['REQUEST_METHOD'] === 'GET') {
     exit;
 }
 
+if ($action === 'clear' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+  $history->clear();
+  echo json_encode(['ok' => true]);
+  exit;
+}
+
 // Default: serve a minimal HTML page when no action specified
 header('Content-Type: text/html; charset=utf-8');
 $known = $config['known_tlds'] ?? ['com','net','org'];
@@ -98,7 +104,9 @@ $known = $config['known_tlds'] ?? ['com','net','org'];
     <section id="results" aria-live="polite"></section>
   </main>
 
-  <aside id="history"></aside>
+  <aside id="history">
+    <div class="history-header"><h2>History</h2><button id="clearHistory" class="clear-btn">Clear</button></div>
+  </aside>
 </div>
 
 <script src="resources/app.js"></script>

@@ -35,4 +35,9 @@ class HistoryStore
     {
         return $_SESSION[self::SESSION_KEY] ?? [];
     }
+
+    public function clear(): void
+    {
+        $_SESSION[self::SESSION_KEY] = [];
+    }
 }
