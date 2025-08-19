@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+    /* Professional palette: indigo -> teal accents */
+    --bg: #f8fafc;        /* page background (light) */
+    --surface: #ffffff;   /* cards */
+    --muted: #6b7280;     /* secondary text */
+    --text: #0f1724;      /* primary text */
+    --accent: #840dbc;    /* indigo-600 */
+    --accent-2: #560702;  /* teal-400 */
+    --chip-bg: rgba(79,70,229,0.06);
+    --border: rgba(15,23,42,0.06);
+    --shadow: 0 10px 30px rgba(2,6,23,0.06);
+    /* header/sidebar tokens */
+    --header-bg-start: #3e2f7c;
+    --header-bg-end: #2d3758;
+    --sidebar-bg-end: #e5deea;
+    --sidebar-bg-start: #e3d9e7;
+    --chip-accent: rgb(94 49 49 / 8%);
+    /* header text color (light theme) */
+    --header-text: #ffffff;
+  --badge-bg: white;
+  /* header subtitle color */
+  --header-subtext: rgba(255,255,255,0.92);
+}
+
+/* dark theme tokens */
+:root[data-theme='dark']{
+  /* Restore a balanced dark theme */
+  --bg: #071026;
+  --surface: #0b1220;
+  --muted: #94a3b8;
+  --text: #e6eef8;
+  --accent: #a41104;
+  --accent-2: #560702;
+  --chip-bg: rgba(124,92,255,0.08);
+  --border: rgba(255,255,255,0.03);
+  --shadow: 0 12px 36px rgba(2,6,23,0.6);
+  --header-bg-start: #3e2f7c;
+  --header-bg-end: #2d3758;
+  --sidebar-bg-start: #071026;
+  --sidebar-bg-end: #0b1220;
+  --chip-accent:rgb(226 186 186 / 12%);
+  --header-text: #ffffff;
+  --header-subtext: rgba(255,255,255,0.92);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+.container{
+  max-width:1100px;
+  margin:28px auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:18px;
+}
+
+header{
+  background: linear-gradient(90deg, var(--header-bg-start), var(--header-bg-end));
+  color: var(--header-text);
+  padding:14px 12px;border-radius:12px;position:relative;overflow:hidden;
+}
+
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-left h1{margin:0;font-size:20px;font-weight:600}
+.header-left p{margin:6px 0 0;color:var(--header-subtext);font-size:13px}
+
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:8px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;
+}
+
+main{
+  background:var(--surface);
+  padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);
+}
+
+form{display:block}
+label[for="q"]{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+.search-row{display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
+
+/* Make the text input a flexible item so the check button stays to its right
+  on larger screens. Keep a small min-width to allow ellipsis and avoid
+  overflowing the container. On very small screens the media query below
+  will stack these elements vertically. */
+.search-row input[type=text]{flex:1 1 auto;min-width:0;padding:12px 14px;font-size:16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)}
+.search-row .check-btn{flex:0 0 auto}
+.check-btn{padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:0;font-weight:600;cursor:pointer}
+
+.tlds{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chip{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:var(--chip-accent);
+  color:var(--text);font-size:13px;border:1px solid rgba(10,10,10,0.04);cursor:pointer;user-select:none;
+}
+.chip input{margin:0}
+.chip:hover{transform:translateY(-3px);box-shadow: 0 6px 18px rgba(16,24,40,0.06)}
+
+.controls{display:flex;gap:8px;align-items:center}
+button{appearance:none;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+button:active{transform:translateY(1px)}
+
+#results{margin-top:14px}
+.result{background:transparent;padding:12px;border-radius:10px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border)}
+.result .domain{font-weight:700;color:var(--text)}
+.result .domain.sld{color:#7f1d1d} /* dark red for domain name */
+.result .status{font-size:13px;padding:6px 10px;border-radius:999px}
+.status-available{background:rgba(34,197,94,0.12);color:#22c55e;font-weight:700}
+.status-taken{background:rgba(226,232,240,0.06);color:var(--muted)}
+.status-checking{color:var(--muted)}
+
+.status-error{background:rgba(239,68,68,0.08);color:#ef4444;font-weight:700}
+
+/* entrance animation for results and history items */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result{animation: fadeInUp 260ms cubic-bezier(.2,.9,.2,1) both}
+.result:hover{transform: translateY(-4px); box-shadow: 0 10px 30px rgba(2,6,23,0.06)}
+
+/* make the check button pop a bit */
+.check-btn{padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:0;font-weight:700;cursor:pointer;box-shadow: 0 6px 18px rgba(37,99,235,0.12);display:inline-flex;align-items:center;gap:8px}
+.check-btn:active{transform:translateY(1px) scale(0.996)}
+.check-btn .icon{font-size:14px;opacity:0.95}
+
+/* subtle divider between input and button on wide screens */
+.search-row{position:relative}
+.search-row::after{content:'';position:absolute;right:86px;top:12px;width:1px;height:36px;background:var(--border);opacity:0.8;border-radius:2px}
+
+/* history item entrance */
+#history li{animation: fadeInUp 320ms cubic-bezier(.2,.9,.2,1) both}
+#history li:hover{transform:translateY(-3px);box-shadow: 0 10px 30px rgba(2,6,23,0.04)}
+
+/* make SLD pill stand out and aligned */
+#history .pill.sld{background:transparent;color:#7f1d1d;font-weight:700;border:1px solid var(--border);padding:6px 12px}
+
+/* status icon styles */
+.status .icon{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-right:8px}
+.status svg{width:14px;height:14px}
+.spinner svg{animation: spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.checkmark{transform-origin:center;animation: pop 320ms cubic-bezier(.2,.9,.2,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* labels */
+.status .label{vertical-align:middle}
+
+#history{padding:12px;border-radius:12px;background: linear-gradient(180deg, var(--sidebar-bg-start), var(--sidebar-bg-end));border:1px solid var(--border);box-shadow:var(--shadow);color:var(--text)}
+#history h2{margin:0 0 10px;font-size:15px;color:var(--text)}
+#history .empty{color:var(--muted)}
+/* history pills */
+#history ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+#history li{padding:10px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+#history .badges{display:flex;gap:8px;flex-wrap:wrap}
+#history .pill{background:var(--chip-bg);padding:6px 10px;border-radius:999px;border:1px solid transparent;font-size:13px;color:var(--text)}
+#history .pill.sld{background:transparent;color:var(--accent);font-weight:700;border:1px solid var(--border)}
+#history li .meta{color:var(--muted);font-size:13px}
+.history-item{padding:10px;border-bottom:1px solid var(--badge-bg)}
+@media(min-width:860px){
+  .container{grid-template-columns: 1fr 360px}
+  header{grid-column: 1 / -1}
+  main{order:1}
+  #history{order:2}
+}
+
+@media(max-width:480px){
+  .search-row{flex-direction:column;align-items:stretch}
+  .search-row .check-btn{width:100%}
+}
+
+@media(max-width:859px){
+  .container{padding:12px}
+}
+
+/* helpers & transitions */
+.muted{color:var(--muted)}
+*{transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease}
+.theme-toggle{transition:transform 140ms ease, background-color 200ms ease}
+.chip{transition:transform 160ms ease, box-shadow 180ms ease}
+
+/* accessibility focus */
+button:focus, .chip input:focus { outline: 3px solid rgba(37,99,235,0.14); outline-offset: 2px }
+
