@@ -1,29 +1,27 @@
 <?php
 return [
-    // Minimal mapping of common TLDs to whois servers.
-    'whois_servers' => [
-        'com' => 'whois.verisign-grs.com',
-        'net' => 'whois.verisign-grs.com',
-        'org' => 'whois.pir.org',
-        'io'  => 'whois.nic.io',
-        'dev' => 'whois.nic.google',
-        'app' => 'whois.nic.google',
-        'ai'  => 'whois.nic.ai',
-        'co'  => 'whois.nic.co',
-        'me'  => 'whois.nic.me',
-        'tech'=> 'whois.nic.tech',
-        'xyz' => 'whois.nic.xyz',
-        'online' => 'whois.nic.online',
-        'site' => 'whois.nic.site',
-        'shop' => 'whois.nic.shop',
-    // Morocco (.ma) whois server — verify with your environment if needed
-    'ma'  => 'whois.nic.ma',
-    // Tonga (.to)
-    'to'  => 'whois.nic.to',
+    // Merged TLD configuration. Each key is a TLD and the value contains:
+    //  - server: whois server hostname (null to use system whois fallback)
+    //  - checked: whether to check this TLD by default
+    //  - enabled: whether this TLD appears in the UI (set false to hide)
+    'tlds' => [
+        'com' => ['server' => 'whois.verisign-grs.com', 'checked' => true, 'enabled' => true],
+        'net' => ['server' => 'whois.verisign-grs.com', 'checked' => true, 'enabled' => true],
+        'org' => ['server' => 'whois.pir.org', 'checked' => true, 'enabled' => true],
+        'io'  => ['server' => 'whois.nic.io', 'checked' => false, 'enabled' => true],
+        'dev' => ['server' => 'whois.nic.google', 'checked' => false, 'enabled' => false],
+        'app' => ['server' => 'whois.nic.google', 'checked' => false, 'enabled' => false],
+        'ai'  => ['server' => 'whois.nic.ai', 'checked' => false, 'enabled' => true],
+        'co'  => ['server' => 'whois.nic.co', 'checked' => false, 'enabled' => true],
+        'me'  => ['server' => 'whois.nic.me', 'checked' => false, 'enabled' => true],
+        'tech'=> ['server' => 'whois.nic.tech', 'checked' => false, 'enabled' => true],
+        'xyz' => ['server' => 'whois.nic.xyz', 'checked' => false, 'enabled' => true],
+        'online' => ['server' => 'whois.nic.online', 'checked' => false, 'enabled' => true],
+        'site' => ['server' => 'whois.nic.site', 'checked' => false, 'enabled' => true],
+        'shop' => ['server' => 'whois.nic.shop', 'checked' => false, 'enabled' => true],
+        'ma'  => ['server' => 'whois.nic.ma', 'checked' => false, 'enabled' => false],
+        'to'  => ['server' => 'whois.nic.to', 'checked' => false, 'enabled' => true],
     ],
-
-    // Known TLDs presented in the UI by default.
-    'known_tlds' => ['com','net','org','io','app','ai','me','tech','xyz','online','site','shop','to'],
 
     // Timeout (seconds) for network whois lookups.
     'check_timeout' => 3,
