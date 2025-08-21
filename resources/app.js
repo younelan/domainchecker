@@ -112,6 +112,67 @@
     });
   }
 
+  // Collapse/expand TLD list to only show checked items
+  const collapseBtn = document.getElementById('collapseTlds');
+  const tldsContainer = document.querySelector('.tlds');
+  const COLLAPSE_KEY = 'domaincheck:tlds:collapsed';
+  function setCollapsed(v){
+    if (!tldsContainer) return;
+    if (v) {
+      tldsContainer.classList.add('collapsed');
+      tldsContainer.setAttribute('data-collapsed', 'true');
+    } else {
+      tldsContainer.classList.remove('collapsed');
+      tldsContainer.removeAttribute('data-collapsed');
+    }
+    if (collapseBtn){
+      // aria-pressed=true when options are visible (not collapsed)
+      collapseBtn.setAttribute('aria-pressed', v ? 'false' : 'true');
+      // show the action the button will perform: when collapsed (v=true) show 'Show options'
+      collapseBtn.textContent = v ? 'Show options' : 'Hide options';
+    }
+    try{ sessionStorage.setItem(COLLAPSE_KEY, v ? '1' : '0'); }catch(e){}
+    // ensure visibility update for browsers without :has() support
+    updateCollapsedVisibility();
+  }
+  if (collapseBtn){
+    collapseBtn.addEventListener('click', function(){
+      const curVal = sessionStorage.getItem(COLLAPSE_KEY);
+      const cur = (curVal === '1');
+      setCollapsed(!cur);
+    });
+  }
+  // initialize collapsed state from session storage; default to collapsed when not set
+  try{
+    const curVal = sessionStorage.getItem(COLLAPSE_KEY);
+    const cur = (curVal === null) ? true : (curVal === '1');
+    setCollapsed(cur);
+  }catch(e){ /* ignore */ }
+
+  // Show/hide chips when collapsed: keep only checked chips visible.
+  function updateCollapsedVisibility(){
+    if (!tldsContainer) return;
+    const isCollapsed = tldsContainer.classList.contains('collapsed');
+    const chips = Array.from(tldsContainer.querySelectorAll('.chip'));
+    chips.forEach(chip => {
+      const input = chip.querySelector('input[type="checkbox"]');
+      if (!input) return;
+      const pinned = chip.getAttribute('data-collapsed') === 'true';
+      if (!isCollapsed) {
+        chip.style.display = '';
+      } else {
+        // show if checked OR pinned (collapsed:true)
+        chip.style.display = (input.checked || pinned) ? 'inline-flex' : 'none';
+      }
+    });
+  }
+
+  // Wire change events on checkboxes to update collapsed visibility immediately
+  const tldBoxes = Array.from(document.querySelectorAll('input[name="tlds[]"]'));
+  tldBoxes.forEach(b => b.addEventListener('change', () => updateCollapsedVisibility()));
+  // ensure toggleTlds also updates visibility
+  if (toggleTldsBtn) toggleTldsBtn.addEventListener('click', () => setTimeout(updateCollapsedVisibility, 30));
+
   function renderHistory(list){
     const node = $('#history');
     // preserve existing header if present

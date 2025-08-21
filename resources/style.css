@@ -11,7 +11,7 @@
     --chip-bg: rgba(79,70,229,0.06);
     --border: rgba(15,23,42,0.06);
     --shadow: 0 10px 30px rgba(2,6,23,0.06);
-    /* header/sidebar tokens */
+    --title-color: #ffffad;
     --header-bg-start: #3e2f7c;
     --header-bg-end: #2d3758;
     --sidebar-bg-end: #e5deea;
@@ -19,59 +19,60 @@
     --chip-accent: rgb(94 49 49 / 8%);
     /* header text color (light theme) */
     --header-text: #ffffff;
-  --badge-bg: white;
-  /* header subtitle color */
-  --header-subtext: rgba(255,255,255,0.92);
+    --badge-bg: white;
+    /* header subtitle color */
+    --header-subtext: rgba(255,255,255,0.92);
 }
 
 /* dark theme tokens */
 :root[data-theme='dark']{
-  /* Restore a balanced dark theme */
-  --bg: #071026;
-  --surface: #0b1220;
-  --muted: #94a3b8;
-  --text: #e6eef8;
-  --accent: #a41104;
-  --accent-2: #560702;
-  --chip-bg: rgba(124,92,255,0.08);
-  --border: rgba(255,255,255,0.03);
-  --shadow: 0 12px 36px rgba(2,6,23,0.6);
-  --header-bg-start: #3e2f7c;
-  --header-bg-end: #2d3758;
-  --sidebar-bg-start: #071026;
-  --sidebar-bg-end: #0b1220;
-  --chip-accent:rgb(226 186 186 / 12%);
-  --header-text: #ffffff;
-  --header-subtext: rgba(255,255,255,0.92);
+	/* Restore a balanced dark theme */
+	--bg: #071026;
+	--surface: #08203d;
+	--muted: #fff2bb;
+	--text: #e6eef8;
+	--accent: #a41104;
+	--accent-2: #560702;
+        --title-color: #ffffad;
+	--chip-bg: rgba(124,92,255,0.08);
+	--border: rgba(255,255,255,0.03);
+	--shadow: 0 12px 36px rgba(2,6,23,0.6);
+	--header-bg-start: #364e6a;
+	--header-bg-end: #2d3758;
+	--sidebar-bg-start: #132b64;
+	--sidebar-bg-end: #0b1220;
+	--chip-accent:rgb(226 186 186 / 12%);
+	--header-text: #ffffff;
+	--header-subtext: rgba(255,255,255,0.92);
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family: Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+margin:0;
+       font-family: Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+background:var(--bg);
+color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
 
 .container{
-  max-width:1100px;
-  margin:28px auto;
-  padding:20px;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:18px;
+	max-width:1100px;
+margin:28px auto;
+padding:20px;
+display:grid;
+	grid-template-columns: 1fr;
+gap:18px;
 }
 
 header{
-  background: linear-gradient(90deg, var(--header-bg-start), var(--header-bg-end));
-  color: var(--header-text);
-  padding:14px 12px;border-radius:12px;position:relative;overflow:hidden;
+background: linear-gradient(90deg, var(--header-bg-start), var(--header-bg-end));
+color: var(--header-text);
+padding:14px 12px;border-radius:12px;position:relative;overflow:hidden;
 }
 
 .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.header-left h1{margin:0;font-size:20px;font-weight:600}
+.header-left h1{color:var(--title-color);margin:0;font-size:20px;font-weight:600}
 .header-left p{margin:6px 0 0;color:var(--header-subtext);font-size:13px}
 
 .theme-toggle{
@@ -97,10 +98,16 @@ label[for="q"]{display:block;color:var(--muted);font-size:13px;margin-bottom:6px
 .check-btn{padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:0;font-weight:600;cursor:pointer}
 
 .tlds{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tlds .options-controls{width:100%;display:flex;justify-content:flex-start;margin-bottom:8px}
 .chip{
   display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:var(--chip-accent);
   color:var(--text);font-size:13px;border:1px solid rgba(10,10,10,0.04);cursor:pointer;user-select:none;
 }
+.tlds.collapsed .chip{display:none}
+.tlds.collapsed .chip[data-collapsed="true"]{display:inline-flex}
+.tlds.collapsed .options-controls{display:none}
+
+.theme-toggle[aria-pressed='true']{box-shadow: 0 8px 20px rgba(2,6,23,0.08)}
 .chip input{margin:0}
 .chip:hover{transform:translateY(-3px);box-shadow: 0 6px 18px rgba(16,24,40,0.06)}
 
