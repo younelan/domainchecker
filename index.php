@@ -90,14 +90,16 @@ if (!empty($config['tlds']) && is_array($config['tlds'])) {
 
     $checked = false;
     $server = null;
+    $collapsed = false;
     if (is_array($meta)) {
       $checked = !empty($meta['checked']);
       $server = $meta['server'] ?? null;
+      $collapsed = !empty($meta['collapsed']);
     } elseif (is_string($meta)) {
       // legacy shorthand: server string
       $server = $meta;
     }
-    $known[] = ['name' => $t, 'checked' => $checked, 'server' => $server];
+    $known[] = ['name' => $t, 'checked' => $checked, 'server' => $server, 'collapsed' => $collapsed];
   }
 } else {
   // Legacy support: known_tlds may be a numeric or associative array.
@@ -143,13 +145,14 @@ if (!empty($config['tlds']) && is_array($config['tlds'])) {
   <button type="submit" class="check-btn"><span class="icon">🔍</span><span class="label">Check</span></button>
       </div>
 
-      <div style="margin:12px 0">
-        <button type="button" id="toggleTlds" class="theme-toggle">Select all</button>
+      <div style="margin:12px 0" class="controls">
+        <button type="button" id="collapseTlds" class="theme-toggle" aria-pressed="false">Show options</button>
       </div>
 
-      <div class="tlds">
-        <?php foreach ($known as $entry): $t = $entry['name']; $isChecked = !empty($entry['checked']); ?>
-          <label class="chip"><input type="checkbox" name="tlds[]" value="<?=htmlspecialchars($t)?>" <?= $isChecked ? 'checked' : '' ?>> <?=htmlspecialchars($t)?></label>
+      <div class="tlds" id="tldsContainer">
+        <div class="options-controls"><button type="button" id="toggleTlds" class="theme-toggle">Select all</button></div>
+        <?php foreach ($known as $entry): $t = $entry['name']; $isChecked = !empty($entry['checked']); $isPinned = !empty($entry['collapsed']); ?>
+          <label class="chip" <?= $isPinned ? 'data-collapsed="true"' : '' ?>><input type="checkbox" name="tlds[]" value="<?=htmlspecialchars($t)?>" <?= $isChecked ? 'checked' : '' ?>> <?=htmlspecialchars($t)?></label>
         <?php endforeach; ?>
       </div>
     </form>
